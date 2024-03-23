@@ -1,0 +1,4 @@
+import pandas as pd
+data = "CTDdata_Date_Time_Depth(m)_Temperature(°C)_Salinity(psu).xlsx"
+CTDdata = pd.read_excel(data)
+print(CTDdata)
