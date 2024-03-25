@@ -1,0 +1,42 @@
+#Part 2 code
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.style as style
+import matplotlib.dates as mdates
+
+data = pd.read_csv('SAA2_WC_2017_metocean_10min_avg.csv', parse_dates=["TIME_SERVER"], index_col="TIME_SERVER")
+
+missing_values = data.isnull().sum()
+print("Missing values:\n", missing_values)
+
+selected_data = data[:'2017-07-04']
+
+##Plot the time series of temperature with the appropriate labels. Save the figure using the 'grayscale' style
+plt.style.use('grayscale')
+fig, ax = plt.subplots()
+selected_data = data[:"2017-07-04"]
+ax.plot(selected_data.index, selected_data["TSG_TEMP"])
+ax.set_xlabel("Time (Date)")
+ax.set_ylabel("Temperature(°C)")
+plt.xticks(rotation=90)  
+fig.autofmt_xdate()
+fig.savefig("selected_data_grayscale.png", dpi=200, bbox_inches='tight')
+
+##Plot a histogram of salinity using bins of 0.5 psu between 30 and 35
+fig, ax = plt.subplots()
+ax.hist(selected_data["TSG_SALINITY"], bins=[30.0, 30.5, 31.0, 31.5, 32.0, 32.5, 33.0, 33.5, 34.0, 34.5, 35], color='blue')
+ax.set_xlabel("Salinity(psu)")
+ax.set_ylabel("Frequency")
+plt.show()
+fig.savefig("selected_data_hist.png", dpi=200)
+
+##Create a scatter plot of wind speed and air temperature, encoding the latitude information in color. Wind speed is in meters per second and air temperature in degrees C.
+
+fig, ax = plt.subplots()
+sc = ax.scatter(selected_data["WIND_SPEED_TRUE"], selected_data["AIR_TEMPERATURE"], c=selected_data["LATITUDE"], cmap='viridis')
+ax.set_xlabel("Wind Speed (m/s)")
+ax.set_ylabel("Air Temperature (°C)")
+plt.colorbar(sc, label='Latitude')
+plt.show()
+fig.savefig("selected_data_scatter.png", dpi=200)

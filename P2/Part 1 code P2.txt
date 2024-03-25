@@ -1,0 +1,21 @@
+#Part 1 code: A two-panel plot showing Depth (m) against Temperature (°C) and Salinity (psu) of oceanographic data collected in November 2008 using a CTD.
+
+import matplotlib.pyplot as plt
+import pandas as pd
+data = 'CTDdata_Date_Time_Depth(m)_Temperature(°C)_Salinity(psu)..xlsx'
+CTDdata = pd.read_excel(data)
+fig, ax = plt.subplots(1,2)
+
+##First plot
+
+ax[0].plot(CTDdata["Temperature(°C)"], CTDdata["Depth(m)"], color='blue')
+ax[0].set_xlabel("Temperature(°C)")
+ax[0].set_ylabel("Depth (m)")
+
+##Second plot 
+ax[1].plot(CTDdata["Salinity(psu)"], CTDdata["Depth(m)"], color='red')
+ax[1].set_xlabel("Salinity(psu)")
+
+##show and save plot
+plt.show()
+fig.savefig("share_yy.png", dpi=200)
